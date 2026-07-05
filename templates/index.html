@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Student Registration</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:linear-gradient(90deg,#a66dd4,#4ecdc4);
+}
+
+.container{
+    width:700px;
+    margin:50px auto;
+    background:white;
+    padding:35px;
+    border-radius:20px;
+    box-shadow:0 15px 35px rgba(0,0,0,.2);
+}
+
+h2{
+    text-align:center;
+    color:#1e3a8a;
+    margin-bottom:25px;
+}
+
+label{
+    font-weight:bold;
+    display:block;
+    margin-top:10px;
+}
+
+input{
+    width:100%;
+    padding:12px;
+    margin-top:5px;
+    border:1px solid #ccc;
+    border-radius:8px;
+    margin-bottom:10px;
+    font-size:15px;
+}
+
+.buttons{
+    display:flex;
+    justify-content:space-between;
+    margin-top:20px;
+}
+
+button{
+    width:32%;
+    padding:12px;
+    border:none;
+    border-radius:8px;
+    color:white;
+    font-size:16px;
+    cursor:pointer;
+}
+
+.add{
+    background:#28a745;
+}
+
+.update{
+    background:#0d6efd;
+}
+
+.delete{
+    background:#dc3545;
+}
+
+button:hover{
+    opacity:.9;
+}
+
+.view-btn{
+    text-align:center;
+    margin-top:20px;
+}
+
+.view-btn a{
+    text-decoration:none;
+    background:#6f42c1;
+    color:white;
+    padding:12px 25px;
+    border-radius:8px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>🎓 Student Management System</h2>
+
+<form method="POST">
+
+<label>Student ID</label>
+<input type="number"
+       name="student_id"
+       id="student_id"
+       placeholder="Enter Student ID"
+       required>
+
+<label>Student Name</label>
+<input type="text"
+       name="student_name"
+       id="student_name"
+       placeholder="Enter Student Name"
+       required>
+
+<label>Subject 1</label>
+<input type="number"
+       name="subject1"
+       id="s1"
+       required>
+
+<label>Subject 2</label>
+<input type="number"
+       name="subject2"
+       id="s2"
+       required>
+
+<label>Subject 3</label>
+<input type="number"
+       name="subject3"
+       id="s3"
+       required>
+
+<label>Subject 4</label>
+<input type="number"
+       name="subject4"
+       id="s4"
+       required>
+
+<label>Subject 5</label>
+<input type="number"
+       name="subject5"
+       id="s5"
+       required>
+
+<div class="buttons">
+
+<button type="submit"
+        formaction="/add"
+        class="add">
+Add Student
+</button>
+
+<button type="submit"
+        formaction="/update"
+        class="update">
+Update Student
+</button>
+
+<button type="submit"
+        formaction="/delete"
+        class="delete">
+Delete Student
+</button>
+
+</div>
+
+</form>
+
+<div class="view-btn">
+    <a href="/view">View Students</a>
+</div>
+
+<div class="view-btn">
+    <a href="/search">Student Login</a>
+</div>
+
+</div>
+
+</body>
+</html> 

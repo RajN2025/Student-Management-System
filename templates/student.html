@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Marks</title>
+</head>
+<body>
+
+<h2>Your Marks</h2>
+
+{% if student %}
+
+<table border="1" cellpadding="10">
+
+<tr>
+    <th>ID</th>
+    <td>{{ student.student_id }}</td>
+</tr>
+
+<tr>
+    <th>Name</th>
+    <td>{{ student.student_name }}</td>
+</tr>
+
+<tr>
+    <th>Subject 1</th>
+    <td>{{ student.subject1 }}</td>
+</tr>
+
+<tr>
+    <th>Subject 2</th>
+    <td>{{ student.subject2 }}</td>
+</tr>
+
+<tr>
+    <th>Subject 3</th>
+    <td>{{ student.subject3 }}</td>
+</tr>
+
+<tr>
+    <th>Subject 4</th>
+    <td>{{ student.subject4 }}</td>
+</tr>
+
+<tr>
+    <th>Subject 5</th>
+    <td>{{ student.subject5 }}</td>
+</tr>
+
+<tr>
+    <th>Total</th>
+    <td>
+        {{ student.subject1 + student.subject2 + student.subject3 +
+           student.subject4 + student.subject5 }}
+    </td>
+</tr>
+
+<tr>
+    <th>Average</th>
+    <td>
+        {{
+        ((student.subject1 + student.subject2 + student.subject3 +
+        student.subject4 + student.subject5)/5)|round(2)
+        }}
+    </td>
+</tr>
+
+</table>
+
+{% else %}
+
+<h3>Student ID Not Found</h3>
+
+{% endif %}
+
+<br>
+
+<a href="/search">Search Again</a>
+
+</body>
+</html>
