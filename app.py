@@ -1,14 +1,19 @@
 from flask import Flask, render_template, request, redirect
 import mysql.connector
+import os
+from dotenv import load_dotenv
+
+# Load local environment variables from .env file
+load_dotenv()
 
 app = Flask(__name__)
 
-
 db = mysql.connector.connect(
-    host="localhost",
-    user="root",
-    password="air123",
-    database="student_management"
+    host=os.getenv("DB_HOST"),
+    port=int(os.getenv("DB_PORT", 14270)),
+    user=os.getenv("DB_USER"),
+    password=os.getenv("DB_PASSWORD"),
+    database=os.getenv("DB_NAME")
 )
 
 cursor = db.cursor(dictionary=True)
@@ -17,7 +22,6 @@ cursor = db.cursor(dictionary=True)
 @app.route('/')
 def index():
     return render_template('index.html')
-
 
 
 @app.route('/add', methods=['POST'])
@@ -53,7 +57,6 @@ def add():
     return redirect('/view')
 
 
-
 @app.route('/view')
 def view():
 
@@ -62,7 +65,6 @@ def view():
     students = cursor.fetchall()
 
     return render_template('view.html', students=students)
-
 
 
 @app.route('/update', methods=['POST'])
@@ -104,7 +106,6 @@ def update():
     return redirect('/view')
 
 
-
 @app.route('/delete', methods=['POST'])
 def delete():
 
@@ -116,6 +117,7 @@ def delete():
     db.commit()
 
     return redirect('/view')
+
 
 @app.route('/search')
 def search():
@@ -134,7 +136,6 @@ def student():
     student = cursor.fetchone()
 
     return render_template('student.html', student=student)
-
 
 
 if __name__ == '__main__':
