@@ -8,8 +8,11 @@ load_dotenv()
 
 app = Flask(__name__)
 
+db_initialized = False
+
 # Request-context database connection helper
 def get_db():
+    global db_initialized
     if 'db' not in g or not g.db.is_connected():
         g.db = mysql.connector.connect(
             host=os.getenv("DB_HOST"),
@@ -18,6 +21,25 @@ def get_db():
             password=os.getenv("DB_PASSWORD"),
             database=os.getenv("DB_NAME")
         )
+        if not db_initialized:
+            try:
+                cursor = g.db.cursor()
+                cursor.execute("""
+                CREATE TABLE IF NOT EXISTS students (
+                    student_id INT PRIMARY KEY,
+                    student_name VARCHAR(50),
+                    subject1 INT,
+                    subject2 INT,
+                    subject3 INT,
+                    subject4 INT,
+                    subject5 INT
+                )
+                """)
+                cursor.close()
+                db_initialized = True
+            except Exception as e:
+                # Log warning but do not crash the app
+                print("Warning: Could not automatically verify or create 'students' table:", e)
     return g.db
 
 # Automatically teardown database connections at request end
@@ -156,4 +178,5 @@ def student():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    port = int(os.getenv("PORT", 5000))
+    app.run(host="0.0.0.0", port=port, debug=True)
