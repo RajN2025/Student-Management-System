@@ -1,80 +1,203 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" data-theme="dark">
 <head>
-    <title>Student Marks</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report Card - Student Management System</title>
+    <link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body>
 
-<h2>Your Marks</h2>
+<div class="app-container">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+        <div>
+            <div class="brand-section">
+                <span class="brand-logo">🎓</span>
+                <span class="brand-name">Academix</span>
+            </div>
+            <ul class="nav-links">
+                <li class="nav-item" id="nav-dashboard">
+                    <a href="/">
+                        <span>📊</span>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item" id="nav-view">
+                    <a href="/view">
+                        <span>📋</span>
+                        <span>Student Records</span>
+                    </a>
+                </li>
+                <li class="nav-item active" id="nav-search">
+                    <a href="/search">
+                        <span>🔍</span>
+                        <span>Student Portal</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="sidebar-footer">
+            <button id="theme-toggle" class="theme-toggle-btn">☀️ Light Mode</button>
+        </div>
+    </aside>
 
-{% if student %}
+    <!-- Main Content Area -->
+    <main class="main-content">
+        <header class="header-container">
+            <div>
+                <h1 class="page-title">Grade Report</h1>
+                <p class="page-subtitle">Personal academic achievements review</p>
+            </div>
+            <div>
+                <a href="/search" class="btn btn-secondary">🔍 Search Again</a>
+            </div>
+        </header>
 
-<table border="1" cellpadding="10">
+        {% if student %}
+            {% set total = student.subject1 + student.subject2 + student.subject3 + student.subject4 + student.subject5 %}
+            {% set avg = (total / 5)|round(2) %}
+            
+            {% if avg >= 90 %}
+                {% set grade_letter = 'A+' %}
+                {% set badge_class = 'badge-a' %}
+                {% set feedback = 'Exceptional performance! You have demonstrated masterly grasp over all courses. Keep up the brilliant work.' %}
+            {% elif avg >= 80 %}
+                {% set grade_letter = 'A' %}
+                {% set badge_class = 'badge-a' %}
+                {% set feedback = 'Great job! Strong scores across the board. With a bit more effort, you can reach the top tier.' %}
+            {% elif avg >= 70 %}
+                {% set grade_letter = 'B' %}
+                {% set badge_class = 'badge-b' %}
+                {% set feedback = 'Good performance. Try to focus on subjects where you scored lower to boost your average next term.' %}
+            {% elif avg >= 60 %}
+                {% set grade_letter = 'C' %}
+                {% set badge_class = 'badge-c' %}
+                {% set feedback = 'Satisfactory progress. Steady performance, but consistent practice in all areas is highly recommended.' %}
+            {% elif avg >= 50 %}
+                {% set grade_letter = 'D' %}
+                {% set badge_class = 'badge-d' %}
+                {% set feedback = 'Pass. Work closely on core fundamentals. Extra tutoring support could help boost confidence.' %}
+            {% else %}
+                {% set grade_letter = 'F' %}
+                {% set badge_class = 'badge-f' %}
+                {% set feedback = 'Needs Improvement. Please consult your academic advisor to establish a study plan and retake exams.' %}
+            {% endif %}
 
-<tr>
-    <th>ID</th>
-    <td>{{ student.student_id }}</td>
-</tr>
+            <!-- Premium Report Card Card -->
+            <div class="report-card">
+                <div class="report-header">
+                    <div class="student-info">
+                        <h2>{{ student.student_name }}</h2>
+                        <p>Student ID: <strong>{{ student.student_id }}</strong></p>
+                    </div>
+                    <div class="grade-banner">
+                        <div class="grade-circle {{ badge_class }}" title="Overall Letter Grade">
+                            {{ grade_letter }}
+                        </div>
+                    </div>
+                </div>
 
-<tr>
-    <th>Name</th>
-    <td>{{ student.student_name }}</td>
-</tr>
+                <div class="report-grid">
+                    <!-- Progress bars for courses -->
+                    <div class="subject-scores">
+                        <h3 style="font-weight: 700; font-size: 1.1rem; margin-bottom: 0.5rem;">Course Breakdown</h3>
+                        
+                        <div class="subject-progress-row">
+                            <div class="progress-header">
+                                <span>Subject 1</span>
+                                <span>{{ student.subject1 }}/100</span>
+                            </div>
+                            <div class="progress-bar-bg">
+                                <div class="progress-bar-fill" style="width: {{ student.subject1 }}%; background: var(--accent);"></div>
+                            </div>
+                        </div>
 
-<tr>
-    <th>Subject 1</th>
-    <td>{{ student.subject1 }}</td>
-</tr>
+                        <div class="subject-progress-row">
+                            <div class="progress-header">
+                                <span>Subject 2</span>
+                                <span>{{ student.subject2 }}/100</span>
+                            </div>
+                            <div class="progress-bar-bg">
+                                <div class="progress-bar-fill" style="width: {{ student.subject2 }}%; background: var(--accent);"></div>
+                            </div>
+                        </div>
 
-<tr>
-    <th>Subject 2</th>
-    <td>{{ student.subject2 }}</td>
-</tr>
+                        <div class="subject-progress-row">
+                            <div class="progress-header">
+                                <span>Subject 3</span>
+                                <span>{{ student.subject3 }}/100</span>
+                            </div>
+                            <div class="progress-bar-bg">
+                                <div class="progress-bar-fill" style="width: {{ student.subject3 }}%; background: var(--accent);"></div>
+                            </div>
+                        </div>
 
-<tr>
-    <th>Subject 3</th>
-    <td>{{ student.subject3 }}</td>
-</tr>
+                        <div class="subject-progress-row">
+                            <div class="progress-header">
+                                <span>Subject 4</span>
+                                <span>{{ student.subject4 }}/100</span>
+                            </div>
+                            <div class="progress-bar-bg">
+                                <div class="progress-bar-fill" style="width: {{ student.subject4 }}%; background: var(--accent);"></div>
+                            </div>
+                        </div>
 
-<tr>
-    <th>Subject 4</th>
-    <td>{{ student.subject4 }}</td>
-</tr>
+                        <div class="subject-progress-row">
+                            <div class="progress-header">
+                                <span>Subject 5</span>
+                                <span>{{ student.subject5 }}/100</span>
+                            </div>
+                            <div class="progress-bar-bg">
+                                <div class="progress-bar-fill" style="width: {{ student.subject5 }}%; background: var(--accent);"></div>
+                            </div>
+                        </div>
+                    </div>
 
-<tr>
-    <th>Subject 5</th>
-    <td>{{ student.subject5 }}</td>
-</tr>
+                    <!-- Summary Stats Panel -->
+                    <div class="report-summary-card">
+                        <div>
+                            <h3 style="font-weight: 700; font-size: 1.1rem; margin-bottom: 1rem;">Summary</h3>
+                            
+                            <div class="summary-item">
+                                <span class="summary-label">Total Points</span>
+                                <span class="summary-value">{{ total }} / 500</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-label">Grade Average</span>
+                                <span class="summary-value" style="color: var(--accent);">{{ avg }}%</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-label">Passing Status</span>
+                                <span class="summary-value" style="color: {% if avg >= 50 %}var(--success){% else %}var(--danger){% endif %};">
+                                    {% if avg >= 50 %}PASSING{% else %}FAILING{% endif %}
+                                </span>
+                            </div>
+                        </div>
 
-<tr>
-    <th>Total</th>
-    <td>
-        {{ student.subject1 + student.subject2 + student.subject3 +
-           student.subject4 + student.subject5 }}
-    </td>
-</tr>
+                        <div class="tutor-feedback">
+                            <strong>Academic Remarks:</strong><br>
+                            {{ feedback }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <!-- Error State Card -->
+            <div class="portal-container" style="min-height: 50vh;">
+                <div class="glass-panel portal-card" style="border-color: var(--danger); box-shadow: 0 8px 32px 0 rgba(239, 68, 68, 0.15);">
+                    <div class="portal-icon">⚠️</div>
+                    <h2 style="margin-bottom: 0.5rem; font-weight: 800; color: var(--danger);">Record Not Found</h2>
+                    <p style="color: var(--text-secondary); margin-bottom: 2rem; font-size: 0.9rem;">
+                        No student registered under that ID was found in the database. Please verify the ID number.
+                    </p>
+                    <a href="/search" class="btn btn-danger" style="width: 100%;">↩️ Try Again</a>
+                </div>
+            </div>
+        {% endif %}
+    </main>
+</div>
 
-<tr>
-    <th>Average</th>
-    <td>
-        {{
-        ((student.subject1 + student.subject2 + student.subject3 +
-        student.subject4 + student.subject5)/5)|round(2)
-        }}
-    </td>
-</tr>
-
-</table>
-
-{% else %}
-
-<h3>Student ID Not Found</h3>
-
-{% endif %}
-
-<br>
-
-<a href="/search">Search Again</a>
-
+<script src="/static/js/main.js"></script>
 </body>
 </html>

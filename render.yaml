@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: student-management-system
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app
+    envVars:
+      - key: PORT
+        value: 10000
+      # By default, the application will fallback to a local SQLite database (students.db)
+      # if no MySQL configuration is provided.
+      # To use MySQL, set the following environment variables in your Render Dashboard:
+      # - DB_HOST: your-database-host
+      # - DB_USER: your-database-username
+      # - DB_PASSWORD: your-database-password
+      # - DB_NAME: your-database-name
+      # - DB_PORT: your-database-port (defaults to 14270)

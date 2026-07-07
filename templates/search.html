@@ -1,27 +1,85 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" data-theme="dark">
 <head>
-    <title>View Marks</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Portal - Student Management System</title>
+    <link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body>
 
-<h2>View Your Marks</h2>
+<div class="app-container">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+        <div>
+            <div class="brand-section">
+                <span class="brand-logo">🎓</span>
+                <span class="brand-name">Academix</span>
+            </div>
+            <ul class="nav-links">
+                <li class="nav-item" id="nav-dashboard">
+                    <a href="/">
+                        <span>📊</span>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item" id="nav-view">
+                    <a href="/view">
+                        <span>📋</span>
+                        <span>Student Records</span>
+                    </a>
+                </li>
+                <li class="nav-item active" id="nav-search">
+                    <a href="/search">
+                        <span>🔍</span>
+                        <span>Student Portal</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="sidebar-footer">
+            <button id="theme-toggle" class="theme-toggle-btn">☀️ Light Mode</button>
+        </div>
+    </aside>
 
-<form action="/student" method="POST">
+    <!-- Main Content Area -->
+    <main class="main-content">
+        <header class="header-container">
+            <div>
+                <h1 class="page-title">Student Portal</h1>
+                <p class="page-subtitle">Login to check your grade breakdown and report card</p>
+            </div>
+        </header>
 
-    <label>Enter Student ID</label>
+        <!-- Centered Portal Card -->
+        <div class="portal-container">
+            <div class="glass-panel portal-card">
+                <div class="portal-icon">🔑</div>
+                <h2 style="margin-bottom: 0.5rem; font-weight: 800;">View Report Card</h2>
+                <p style="color: var(--text-secondary); margin-bottom: 2rem; font-size: 0.9rem;">
+                    Enter your unique Student Identification Number to fetch your scores.
+                </p>
+                
+                <form action="/student" method="POST" style="text-align: left;">
+                    <div class="form-group">
+                        <label for="portal_student_id">Student ID</label>
+                        <input type="number" 
+                               id="portal_student_id" 
+                               name="student_id" 
+                               placeholder="e.g. 1001" 
+                               required 
+                               style="font-size: 1.1rem; padding: 1rem; text-align: center;">
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem; padding: 1rem;">
+                        🔓 Check Marks
+                    </button>
+                </form>
+            </div>
+        </div>
+    </main>
+</div>
 
-    <input type="number"
-           name="student_id"
-           required>
-
-    <br><br>
-
-    <button type="submit">
-        View Marks
-    </button>
-
-</form>
-
+<script src="/static/js/main.js"></script>
 </body>
 </html>

@@ -1,154 +1,159 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>View Students</title>
-
-<style>
-
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:'Segoe UI',sans-serif;
-}
-
-body{
-    background:#eef2f7;
-}
-
-header{
-    background:#1e3a8a;
-    color:white;
-    text-align:center;
-    padding:20px;
-    font-size:28px;
-    font-weight:bold;
-}
-
-.container{
-    width:95%;
-    margin:40px auto;
-    background:white;
-    padding:25px;
-    border-radius:12px;
-    box-shadow:0 8px 20px rgba(0,0,0,.15);
-}
-
-h2{
-    text-align:center;
-    color:#1e3a8a;
-    margin-bottom:25px;
-}
-
-table{
-    width:100%;
-    border-collapse:collapse;
-}
-
-th{
-    background:#2563eb;
-    color:white;
-    padding:14px;
-}
-
-td{
-    text-align:center;
-    padding:12px;
-    border-bottom:1px solid #ddd;
-}
-
-tr:nth-child(even){
-    background:#f8f9fa;
-}
-
-tr:hover{
-    background:#dbeafe;
-}
-
-.buttons{
-    margin-top:25px;
-    text-align:center;
-}
-
-.buttons a{
-    text-decoration:none;
-    background:#2563eb;
-    color:white;
-    padding:12px 25px;
-    border-radius:8px;
-}
-
-.buttons a:hover{
-    background:#1d4ed8;
-}
-
-</style>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Records - Student Management System</title>
+    <link rel="stylesheet" href="/static/css/style.css">
 </head>
-
 <body>
 
-<header>
-🎓 Student Management System
-</header>
+<div class="app-container">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+        <div>
+            <div class="brand-section">
+                <span class="brand-logo">🎓</span>
+                <span class="brand-name">Academix</span>
+            </div>
+            <ul class="nav-links">
+                <li class="nav-item" id="nav-dashboard">
+                    <a href="/">
+                        <span>📊</span>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item active" id="nav-view">
+                    <a href="/view">
+                        <span>📋</span>
+                        <span>Student Records</span>
+                    </a>
+                </li>
+                <li class="nav-item" id="nav-search">
+                    <a href="/search">
+                        <span>🔍</span>
+                        <span>Student Portal</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="sidebar-footer">
+            <button id="theme-toggle" class="theme-toggle-btn">☀️ Light Mode</button>
+        </div>
+    </aside>
 
-<div class="container">
+    <!-- Main Content Area -->
+    <main class="main-content">
+        <header class="header-container">
+            <div>
+                <h1 class="page-title">Student Directory</h1>
+                <p class="page-subtitle">View, search, and manage all student database records</p>
+            </div>
+            <div>
+                <button onclick="exportToCSV()" class="btn btn-secondary">📥 Export CSV</button>
+            </div>
+        </header>
 
-<h2>Student Records</h2>
+        <!-- Records Table Card -->
+        <div class="table-card">
+            <div class="table-header-tools">
+                <!-- Search Box -->
+                <div class="search-bar-container">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id="table-search" placeholder="Search by ID or Name...">
+                </div>
 
-<table>
+                <!-- Grade Filter Tags -->
+                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                    <button class="btn btn-secondary filter-btn active-filter" data-grade="all" style="padding: 0.5rem 1rem; font-size: 0.85rem; border-radius: 20px;">All Grades</button>
+                    <button class="btn btn-secondary filter-btn" data-grade="a" style="padding: 0.5rem 1rem; font-size: 0.85rem; border-radius: 20px;">Grade A</button>
+                    <button class="btn btn-secondary filter-btn" data-grade="b" style="padding: 0.5rem 1rem; font-size: 0.85rem; border-radius: 20px;">Grade B</button>
+                    <button class="btn btn-secondary filter-btn" data-grade="c" style="padding: 0.5rem 1rem; font-size: 0.85rem; border-radius: 20px;">Grade C</button>
+                    <button class="btn btn-secondary filter-btn" data-grade="d" style="padding: 0.5rem 1rem; font-size: 0.85rem; border-radius: 20px;">Grade D</button>
+                    <button class="btn btn-secondary filter-btn" data-grade="f" style="padding: 0.5rem 1rem; font-size: 0.85rem; border-radius: 20px;">Grade F</button>
+                </div>
+            </div>
 
-<tr>
-    <th>ID</th>
-    <th>Name</th>
-    <th>Subject 1</th>
-    <th>Subject 2</th>
-    <th>Subject 3</th>
-    <th>Subject 4</th>
-    <th>Subject 5</th>
-    <th>Total</th>
-    <th>Average</th>
-</tr>
-
-{% for student in students %}
-
-<tr>
-
-<td>{{ student.student_id }}</td>
-
-<td>{{ student.student_name }}</td>
-
-<td>{{ student.subject1 }}</td>
-
-<td>{{ student.subject2 }}</td>
-
-<td>{{ student.subject3 }}</td>
-
-<td>{{ student.subject4 }}</td>
-
-<td>{{ student.subject5 }}</td>
-
-<td>
-{{ student.subject1 + student.subject2 + student.subject3 + student.subject4 + student.subject5 }}
-</td>
-
-<td>
-{{ ((student.subject1 + student.subject2 + student.subject3 + student.subject4 + student.subject5)/5)|round(2) }}
-</td>
-
-</tr>
-
-{% endfor %}
-
-</table>
-
-<div class="buttons">
-<a href="/">← Back to Editor</a>
+            <!-- Scrollable Table -->
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Student ID</th>
+                            <th>Student Name</th>
+                            <th>Sub 1</th>
+                            <th>Sub 2</th>
+                            <th>Sub 3</th>
+                            <th>Sub 4</th>
+                            <th>Sub 5</th>
+                            <th>Total</th>
+                            <th>Average</th>
+                            <th>Grade</th>
+                            <th style="text-align: center;">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if students %}
+                            {% for student in students %}
+                                {% set total = student.subject1 + student.subject2 + student.subject3 + student.subject4 + student.subject5 %}
+                                {% set avg = (total / 5)|round(2) %}
+                                
+                                {% if avg >= 90 %}
+                                    {% set grade_letter = 'A' %}
+                                    {% set badge_class = 'badge-a' %}
+                                {% elif avg >= 80 %}
+                                    {% set grade_letter = 'B' %}
+                                    {% set badge_class = 'badge-b' %}
+                                {% elif avg >= 70 %}
+                                    {% set grade_letter = 'C' %}
+                                    {% set badge_class = 'badge-c' %}
+                                {% elif avg >= 60 %}
+                                    {% set grade_letter = 'D' %}
+                                    {% set badge_class = 'badge-d' %}
+                                {% else %}
+                                    {% set grade_letter = 'F' %}
+                                    {% set badge_class = 'badge-f' %}
+                                {% endif %}
+                                
+                                <tr>
+                                    <td style="font-weight: 700;">{{ student.student_id }}</td>
+                                    <td>{{ student.student_name }}</td>
+                                    <td>{{ student.subject1 }}</td>
+                                    <td>{{ student.subject2 }}</td>
+                                    <td>{{ student.subject3 }}</td>
+                                    <td>{{ student.subject4 }}</td>
+                                    <td>{{ student.subject5 }}</td>
+                                    <td style="font-weight: 600;">{{ total }}</td>
+                                    <td style="font-weight: 600; color: var(--accent);">{{ avg }}%</td>
+                                    <td><span class="grade-badge {{ badge_class }}">{{ grade_letter }}</span></td>
+                                    <td>
+                                        <div style="display: flex; gap: 0.5rem; justify-content: center; align-items: center;">
+                                            <!-- Slick edit loader query -->
+                                            <a href="/?edit_id={{ student.student_id }}&edit_name={{ student.student_name }}&s1={{ student.subject1 }}&s2={{ student.subject2 }}&s3={{ student.subject3 }}&s4={{ student.subject4 }}&s5={{ student.subject5 }}" class="btn btn-secondary" style="padding: 0.4rem 0.75rem; font-size: 0.8rem; border-radius: 6px;">✏️ Edit</a>
+                                            
+                                            <!-- Inline deletion form -->
+                                            <form action="/delete" method="POST" style="display:inline; margin: 0;" onsubmit="return confirm('Are you sure you want to delete this student record?');">
+                                                <input type="hidden" name="student_id" value="{{ student.student_id }}">
+                                                <button type="submit" class="btn btn-danger" style="padding: 0.4rem 0.75rem; font-size: 0.8rem; border-radius: 6px;">🗑️ Delete</button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td colspan="11" style="text-align: center; color: var(--text-secondary); padding: 3rem;">
+                                    📭 No student records found. Add some records on the <a href="/" style="color: var(--accent); text-decoration: none; font-weight: 600;">Dashboard</a>.
+                                </td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
 </div>
 
-</div>
-
+<script src="/static/js/main.js"></script>
 </body>
 </html>
